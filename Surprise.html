@@ -28,6 +28,7 @@
     }
     .button-container {
       margin-top: 20px;
+      position: relative;
       display: none;
     }
     button {
@@ -38,7 +39,7 @@
       font-size: 24px;
       border-radius: 10px;
       font-family: 'Fredoka One', cursive;
-      transition: opacity 0.5s;
+      transition: 0.2s ease-in-out;
     }
     .yes-btn {
       background-color: #28a745;
@@ -47,13 +48,13 @@
     .no-btn {
       background-color: #dc3545;
       color: white;
+      position: absolute;
     }
     .confetti-gif {
-  width: 300px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  animation: none; /* Ensure no animation is stopping the GIF */
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     /* GIF Stickers Positioning */
@@ -94,60 +95,4 @@
     ];
     let messageIndex = 0;
     let charIndex = 0;
-    const messageElement = document.getElementById("message");
-    const buttonContainer = document.querySelector(".button-container");
-    let noClickCount = 0;
-
-    function typeMessage() {
-      if (charIndex < messages[messageIndex].length) {
-        messageElement.textContent += messages[messageIndex][charIndex];
-        charIndex++;
-        setTimeout(typeMessage, 100);
-      } else {
-        if (messageIndex === 2) {
-          buttonContainer.style.display = "block"; // Show the buttons after the third message
-        } else {
-          setTimeout(() => {
-            if (messageIndex < messages.length - 1) {
-              messageIndex++;
-              charIndex = 0;
-              messageElement.textContent = "";
-              typeMessage();
-            }
-          }, 800);
-        }
-      }
-    }
-
-    function rejectValentine() {
-      if (noClickCount < 5) {
-        noClickCount++;
-        const noButton = document.querySelector(".no-btn");
-        noButton.style.opacity = 1 - (noClickCount * 0.2);
-        if (noClickCount === 5) {
-          setTimeout(() => {
-            noButton.style.display = "none";
-          }, 500);
-        }
-      }
-    }
-
-    function acceptValentine() {
-      buttonContainer.style.display = "none";  // Hide buttons after acceptance
-      messageElement.textContent = "";
-      messageIndex = 3;
-      charIndex = 0;
-      typeMessage();
-
-      // Show the confetti GIF
-      document.getElementById("confetti-container").style.display = "block"; 
-
-      // Hide the sticker GIFs (left and right)
-      document.querySelector(".left-gif").style.display = "none";
-      document.querySelector(".right-gif").style.display = "none";
-    }
-
-    typeMessage();
-  </script>
-</body>
-</html>
+    const messageElement = document.get

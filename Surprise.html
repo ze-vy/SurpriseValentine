@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine Message</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fredoka+One&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #ffe6e6;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+    #message {
+      font-size: 36px;
+      font-weight: 600;
+      color: #d63384;
+      white-space: pre-line;
+      overflow: hidden;
+      width: fit-content;
+      text-align: center;
+    }
+    .button-container {
+      margin-top: 20px;
+      display: none;
+    }
+    button {
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      border-radius: 10px;
+      font-family: 'Fredoka One', cursive;
+      transition: opacity 0.5s;
+    }
+    .yes-btn {
+      background-color: #28a745;
+      color: white;
+    }
+    .no-btn {
+      background-color: #dc3545;
+      color: white;
+    }
+    .confetti-gif {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  animation: none; /* Ensure no animation is stopping the GIF */
+    }
+
+    /* GIF Stickers Positioning */
+    .gif-sticker {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: -1;
+    }
+    .left-gif {
+      left: 0;
+    }
+    .right-gif {
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="message"></div>
+  <div class="button-container">
+    <button class="yes-btn" onclick="acceptValentine()">Yes</button>
+    <button class="no-btn" onclick="rejectValentine()">No</button>
+  </div>
+  <div id="confetti-container" style="display:none;">
+    <img class="confetti-gif" src="milk-and-mocha-milk-and-mocha-sleep.gif" alt="Confetti GIF">
+  </div>
+  
+  <!-- Sticker GIFs -->
+  <img src="milkdance.gif" alt="Left Sticker" class="gif-sticker left-gif">
+  <img src="mochadance.gif" alt="Right Sticker" class="gif-sticker right-gif">
+
+  <script>
+    const messages = [
+      "Hello Isha 👋!!!", 
+      "Happy Valentines Day to youuuuuu!!!", 
+      "Will you be my Valentine????", 
+      "Yay!! You will now receive a gift\nfrom Ze this coming Saturday! 💖🎁🎉"
+    ];
+    let messageIndex = 0;
+    let charIndex = 0;
+    const messageElement = document.getElementById("message");
+    const buttonContainer = document.querySelector(".button-container");
+    let noClickCount = 0;
+
+    function typeMessage() {
+      if (charIndex < messages[messageIndex].length) {
+        messageElement.textContent += messages[messageIndex][charIndex];
+        charIndex++;
+        setTimeout(typeMessage, 100);
+      } else {
+        if (messageIndex === 2) {
+          buttonContainer.style.display = "block"; // Show the buttons after the third message
+        } else {
+          setTimeout(() => {
+            if (messageIndex < messages.length - 1) {
+              messageIndex++;
+              charIndex = 0;
+              messageElement.textContent = "";
+              typeMessage();
+            }
+          }, 800);
+        }
+      }
+    }
+
+    function rejectValentine() {
+      if (noClickCount < 5) {
+        noClickCount++;
+        const noButton = document.querySelector(".no-btn");
+        noButton.style.opacity = 1 - (noClickCount * 0.2);
+        if (noClickCount === 5) {
+          setTimeout(() => {
+            noButton.style.display = "none";
+          }, 500);
+        }
+      }
+    }
+
+    function acceptValentine() {
+      buttonContainer.style.display = "none";  // Hide buttons after acceptance
+      messageElement.textContent = "";
+      messageIndex = 3;
+      charIndex = 0;
+      typeMessage();
+
+      // Show the confetti GIF
+      document.getElementById("confetti-container").style.display = "block"; 
+
+      // Hide the sticker GIFs (left and right)
+      document.querySelector(".left-gif").style.display = "none";
+      document.querySelector(".right-gif").style.display = "none";
+    }
+
+    typeMessage();
+  </script>
+</body>
+</html>

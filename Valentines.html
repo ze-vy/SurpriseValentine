@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Valentine Message</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Fredoka+One&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background with adjustable opacity */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('AdobeExpressfile.png'); /* Add your background image URL here */
+      background-size: cover;
+      background-position: center;
+      opacity: 0.5; /* Adjust opacity here (0 is fully transparent, 1 is fully opaque) */
+      z-index: -1;
+    }
+
+    #message {
+      font-size: 33px;
+      font-weight: 600;
+      color: #d63384;
+      white-space: pre-line;
+      overflow: hidden;
+      width: fit-content;
+      text-align: center;
+    }
+    .button-container {
+      margin-top: 20px;
+      display: none;
+      position: relative;
+    }
+    button {
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      cursor: pointer;
+      font-size: 24px;
+      border-radius: 10px;
+      font-family: 'Fredoka One', cursive;
+      transition: 0.2s ease-in-out;
+      position: absolute;
+    }
+    .yes-btn {
+      background-color: #28a745;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+    }
+    .no-btn {
+      background-color: #dc3545;
+      color: white;
+      left: 50%;
+      transform: translateX(20%);
+    }
+    .confetti-gif {
+      width: 300px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    /* GIF Stickers Positioning */
+    .gif-sticker {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: -1;
+    }
+    .left-gif {
+      left: 10px;
+    }
+    .right-gif {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="message"></div>
+  <div class="button-container">
+    <button class="yes-btn" onclick="acceptValentine()">Yes</button>
+    <button class="no-btn" onclick="moveNoButton()">No</button>
+  </div>
+  <div id="confetti-container" style="display:none;">
+    <img class="confetti-gif" src="milk-and-mocha-milk-and-mocha-sleep.gif" alt="Confetti GIF">
+  </div>
+  
+  <!-- Sticker GIFs -->
+  <img src="milkdance.gif" alt="Left Sticker" class="gif-sticker left-gif">
+  <img src="mochadance.gif" alt="Right Sticker" class="gif-sticker right-gif">
+
+  <script>
+    const messages = [
+      "Hello there👋!!!", 
+      "Happy Valentines Day to youuuuuu!!!", 
+      "Even though we're both busy and far apart,\n I still wanted to make you feel special.\n So… will you be my Valentine?", 
+      "Yehey!! You make my heart so happyyyy!!\n I have a gift for you this coming Valentine!!!💖🎁🎉"
+    ];
+    let messageIndex = 0;
+    let charIndex = 0;
+    const messageElement = document.getElementById("message");
+    const buttonContainer = document.querySelector(".button-container");
+    let firstClick = true; // Track if No button is clicked for the first time
+
+    function typeMessage() {
+      if (charIndex < messages[messageIndex].length) {
+        messageElement.textContent += messages[messageIndex][charIndex];
+        charIndex++;
+        setTimeout(typeMessage, 100);
+      } else {
+        if (messageIndex === 2) {
+          buttonContainer.style.display = "block"; // Show buttons after third message
+        } else {
+          setTimeout(() => {
+            if (messageIndex < messages.length - 1) {
+              messageIndex++;
+              charIndex = 0;
+              messageElement.textContent = "";
+              typeMessage();
+            }
+          }, 800);
+        }
+      }
+    }
+
+    function moveNoButton() {
+      const noButton = document.querySelector(".no-btn");
+
+      // If it's the first click, reset the transform to make movement noticeable
+      if (firstClick) {
+        noButton.style.position = "absolute";
+        noButton.style.transform = "none";
+        firstClick = false;
+      }
+
+      // Get the window size
+      const maxX = window.innerWidth * 0.4; // Keep it within 40% of screen width
+      const maxY = window.innerHeight * 0.3; // Keep it within 30% of screen height
+
+      // Generate random positions within safe range
+      const randomX = Math.floor(Math.random() * maxX) - maxX / 2;
+      const randomY = Math.floor(Math.random() * maxY) - maxY / 2;
+
+      noButton.style.transform = `translate(${randomX}px, ${randomY}px)`;
+    }
+
+    function acceptValentine() {
+      buttonContainer.style.display = "none";  // Hide buttons after acceptance
+      messageElement.textContent = "";
+      messageIndex = 3;
+      charIndex = 0;
+      typeMessage();
+
+      // Show the confetti GIF
+      document.getElementById("confetti-container").style.display = "block"; 
+
+      // Hide the sticker GIFs (left and right)
+      document.querySelector(".left-gif").style.display = "none";
+      document.querySelector(".right-gif").style.display = "none";
+    }
+
+    typeMessage();
+  </script>
+</body>
+</html>
